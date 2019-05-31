@@ -19,10 +19,16 @@
 //enum LedState eLedState = DIRECTION_RIGHT;
 
 //zadanie 6
-enum LedState {DIRECTION_RIGHT, DIRECTION_LEFT, STOP};
+//enum LedState {DIRECTION_RIGHT, DIRECTION_LEFT, STOP};
+//enum LedState eLedState = STOP;
+
+//zadaie na labach
+enum LedState {FLASH, STOP};
 enum LedState eLedState = STOP;
 
 unsigned char ucMoveCounter;
+int iFlashCounter=0;
+int iFlash=0;
 
 void Delay(unsigned int uiWaitMs){
 	unsigned int uiCounter;
@@ -178,37 +184,101 @@ int main(){
 		
 //		ZADANIE 6
 //
-		switch(eLedState){
-			case DIRECTION_LEFT:
-				if(eKeyboardRead() == BUTTON_2){
-					eLedState = STOP;
-				}
-				else{
-					LedStepLeft();
-					eLedState = DIRECTION_LEFT;
-				}
-				break;
-			case STOP:
-				if(eKeyboardRead() == BUTTON_1){
-					eLedState = DIRECTION_RIGHT;
-				}
-				else if(eKeyboardRead() == BUTTON_3){
-					eLedState = DIRECTION_LEFT;
-				}
-				else{
-					eLedState = STOP;
-				}
-				break;
-			case DIRECTION_RIGHT:
-				if(eKeyboardRead() == BUTTON_2){
-					eLedState = STOP;
-				}
-				else{
-					LedStepRight();
-					eLedState = DIRECTION_RIGHT;
-				}
-				break;
+//	switch(eLedState){
+//		case DIRECTION_LEFT:
+//			if(eKeyboardRead() == BUTTON_2){
+//				eLedState = STOP;
+//			}
+//			else{
+//				LedStepLeft();
+//				eLedState = DIRECTION_LEFT;
+//			}
+//			break;
+//		case STOP:
+//			if(eKeyboardRead() == BUTTON_1){
+//				eLedState = DIRECTION_RIGHT;
+//			}
+//			else if(eKeyboardRead() == BUTTON_3){
+//				eLedState = DIRECTION_LEFT;
+//			}
+//			else{
+//				eLedState = STOP;
+//			}
+//			break;
+//		case DIRECTION_RIGHT:
+//			if(eKeyboardRead() == BUTTON_2){
+//				eLedState = STOP;
+//			}
+//			else{
+//				LedStepRight();
+//				eLedState = DIRECTION_RIGHT;
+//			}
+//			break;
+//		}
+//		Delay(100);		
+
+
+//	ZADANIE NA LABACH
+//
+//	switch(eLedState){
+//		case FLASH:
+//			if(iFlashCounter==20){
+//				LedOn(4);
+//				eLedState = STOP;
+//			}
+//			else{
+//				iFlash++;
+//				if(iFlashCounter%2==0){
+//					LedOn(4);
+//				}
+//				else{
+//					LedOn(1);
+//				}
+//				eLedState = FLASH;
+//				iFlashCounter++;
+//			}
+//			break;
+//		case STOP:
+//			if (eKeyboardRead() == BUTTON_3){
+//				eLedState = FLASH;
+//			}
+//			else{
+//				eLedState = STOP;
+//			}
+//			break;
+//		}
+//		Delay(100);
+
+
+// ZADANIE 2 LABY
+//
+	switch(eLedState){
+		case FLASH:
+			if(eKeyboardRead()==BUTTON_1){
+				LedOn(4);
+				eLedState = STOP;
 			}
-			Delay(100);		
+			else{
+				iFlash++;
+				if(iFlashCounter%2==0){
+					LedOn(4);
+				}
+				else{
+					LedOn(1);
+				}
+				eLedState = FLASH;
+				iFlashCounter++;
+			}
+			break;
+		case STOP:
+			if(eKeyboardRead()==BUTTON_1){
+				eLedState = FLASH;
+			}
+			else{
+				eLedState = STOP;
+			}
+			break;
+		}
+	Delay(100);
 	}
 }
