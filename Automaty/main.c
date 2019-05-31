@@ -127,44 +127,53 @@ int main(){
 
 
 //		MODYFIKACJA ZADANIA 4
-//
-//		if (eKeyboardRead() == BUTTON_1){
-//			switch(eLedState){
-//				case DIRECTION_RIGHT:
-//					if (ucMoveCounter == 3){
-//						eLedState = STOP;
-//					}
-//					else if (ucMoveCounter++ != 3){
-//						LedStepRight();
-//					}
-//					break;
-//				case STOP:
-//					break;
-//			}
-//			Delay(250);
+
+//		switch(eLedState){
+//			case DIRECTION_RIGHT:
+//				if (ucMoveCounter == 3){
+//					ucMoveCounter=0;
+//					eLedState = STOP;
+//				}
+//				else if (ucMoveCounter++ != 3){
+//					LedStepRight();
+//					eLedState = DIRECTION_RIGHT;
+//				}
+//				break;
+//			case STOP:
+//				if (eKeyboardRead() == BUTTON_1){
+//					eLedState = DIRECTION_RIGHT;
+//				}
+//				else{
+//					eLedState = STOP;
+//				}
+//				break;
 //		}
+//		Delay(250);
+//	}
 		
 		
 //		ZADANIE 5
 //
-//		if (eLedState == DIRECTION_RIGHT){
-//			LedStepRight();
-//		}
-//		switch(eKeyboardRead()){
-//			case BUTTON_1:
+//	switch(eLedState){
+//		case DIRECTION_RIGHT:
+//			if (eKeyboardRead() == BUTTON_1){
 //				eLedState = STOP;
-//				break;
-//			case BUTTON_2:
+//			}
+//			else{
+//				LedStepRight();
 //				eLedState = DIRECTION_RIGHT;
-//				break;
-//			case BUTTON_3:
-//				break;
-//			case BUTTON_4:
-//				break;
-//			case RELASED:
-//				break;
+//			}
+//			break;
+//		case STOP:
+//			if (eKeyboardRead() == BUTTON_2){
+//				eLedState = DIRECTION_RIGHT;
+//			}
+//			else{
+//				eLedState = STOP;
+//			}
+//			break;
 //		}
-//		Delay(250);
+//		Delay(100);
 		
 		
 //		ZADANIE 6
