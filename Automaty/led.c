@@ -38,10 +38,10 @@ void LedStep (enum Step Direction){
 	static unsigned int uiDioda;
 	
 	if (Direction == RIGHT){
-		uiDioda++;
+		uiDioda--;
 	}
 	else{
-		uiDioda--;
+		uiDioda++;
 	}
 	LedOn(uiDioda%4);
 }	

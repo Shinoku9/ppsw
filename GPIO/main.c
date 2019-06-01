@@ -21,7 +21,7 @@ void Delay(unsigned int uiWaitMs){
 		for (uiCounter2=0; uiCounter2<7500; uiCounter2++){}
 	}
 }
-
+//git test
 void LedInit(void){
 	IO1DIR=IO1DIR|(LED0_bm|LED1_bm|LED2_bm|LED3_bm);
 	IO1CLR=LED0_bm|LED1_bm|LED2_bm|LED3_bm;
