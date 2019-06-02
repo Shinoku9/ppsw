@@ -3,14 +3,6 @@
 #include "keyboard.h"
 #include "timer.h"
 
-void Delay(unsigned int uiWaitMs){
-	unsigned int uiCounter;
-	unsigned int uiCounter2;
-	for (uiCounter=0; uiCounter<=uiWaitMs ; uiCounter++){
-		for (uiCounter2=0; uiCounter2<7500; uiCounter2++){}
-	}
-}
-
 int main(){
 	LedInit();
 	KeyboardInit();
