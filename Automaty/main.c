@@ -23,7 +23,7 @@
 //enum LedState eLedState = STOP;
 
 //zadaie na labach
-enum LedState {FLASH, STOP};
+enum LedState {FLASH, STOP, DELAY};
 enum LedState eLedState = STOP;
 
 unsigned char ucMoveCounter;
@@ -259,7 +259,6 @@ int main(){
 				eLedState = STOP;
 			}
 			else{
-				iFlash++;
 				if(iFlashCounter%2==0){
 					LedOn(4);
 				}
@@ -270,9 +269,17 @@ int main(){
 				iFlashCounter++;
 			}
 			break;
+		case DELAY:
+			if(eKeyboardRead() == RELASED){
+			eLedState = FLASH;
+			}
+			else{
+				eLedState = DELAY;
+			}
+		break;
 		case STOP:
 			if(eKeyboardRead()==BUTTON_1){
-				eLedState = FLASH;
+				eLedState = DELAY;
 			}
 			else{
 				eLedState = STOP;
