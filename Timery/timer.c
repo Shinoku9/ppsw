@@ -34,7 +34,7 @@ void WaitOnTimer0Match0(){
 }
 
 
-
+//wpisanie 1 powoduje zmiane wartosci rejestru na 0, nie mozna sumy logicznej, bo wczesniej moga byc inne 1 i po sumie logicznej moga zmienic swoj stan
 //co powoduje reset timera oraz ustawienie flagi przerwania
 //co i kiedy resetuje i ustawia flage przerwania
 //
