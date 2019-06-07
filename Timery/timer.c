@@ -18,7 +18,8 @@ void WaitOnTimer0(unsigned int uiTime){
 	T0TCR = T0TCR | COUNTER_RESET_bm; //zerowanie timera
 	T0TCR = T0TCR & ~COUNTER_RESET_bm;	//zakonczenie resetowania timera
 	
-	while(T0TC < (uiTime*FREQ_PCLK)){} //petla opozniajaca o wartosc podana w argumencie
+	while(T0TC < (uiTime*FREQ_PCLK)){} //zadziala, ale okres wykonywania petli while musialby byc mniejszy od zegara w mikrokontrolerze(czestotliwosc petli > czestotliwosc zegara) 
+		//jesli czestotliwosc petli < czestotliwosc zegara, to moze przeskoczyc wartosc uiTime
 }
 
 void InitTimer0Match0(unsigned int iDelayTime){
@@ -35,9 +36,9 @@ void WaitOnTimer0Match0(){
 
 
 //co powoduje reset timera oraz ustawienie flagi przerwania
-
-
-//RESET - ustawienie bitu RESET_ON_MR0 w rejestrze MCR (liczenie impulsów od ppczatku do momentu wyrownania z wartoscia wpisana w T0MR0)
-
-
-//FLAGA - ustawienie bitu MR0_INTERRUPT w rejestrze MCR
+//co i kiedy resetuje i ustawia flage przerwania
+//
+//RESET - ustawienie bitu RESET_ON_MR0 w rejestrze MCR (liczenie impulsów od poczatku do momentu wyrownania z wartoscia wpisana w T0MR0 i po tym czasie sie resetuje)
+//
+//
+//FLAGA - ustawienie bitu MR0_INTERRUPT w rejestrze MCR (po osiagnieciu wartosci wpisanej w T0MR0 spowoduje przerwanie)
