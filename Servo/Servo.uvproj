@@ -44,7 +44,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\</OutputDirectory>
-          <OutputName>przerwania</OutputName>
+          <OutputName>Servo</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -398,6 +398,11 @@
               <FilePath>.\Startup.s</FilePath>
             </File>
             <File>
+              <FileName>main.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\main.c</FilePath>
+            </File>
+            <File>
               <FileName>keyboard.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\keyboard.c</FilePath>
@@ -418,11 +423,6 @@
               <FilePath>.\led.h</FilePath>
             </File>
             <File>
-              <FileName>main.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\main.c</FilePath>
-            </File>
-            <File>
               <FileName>timer_interrupts.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\timer_interrupts.c</FilePath>
@@ -431,6 +431,16 @@
               <FileName>timer_interrupts.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\timer_interrupts.h</FilePath>
+            </File>
+            <File>
+              <FileName>Servo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Servo.c</FilePath>
+            </File>
+            <File>
+              <FileName>Servo.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Servo.h</FilePath>
             </File>
           </Files>
         </Group>
