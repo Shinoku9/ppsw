@@ -18,7 +18,7 @@ void WaitOnTimer0(unsigned int uiTime){
 	T0TCR = T0TCR | COUNTER_RESET_bm; //zerowanie timera
 	T0TCR = T0TCR & ~COUNTER_RESET_bm;	//zakonczenie resetowania timera
 	
-	while(T0TC < (uiTime*FREQ_PCLK)){} //zadziala, ale okres wykonywania petli while musialby byc mniejszy od zegara w mikrokontrolerze(czestotliwosc petli > czestotliwosc zegara) 
+	while(T0TC < (uiTime*FREQ_PCLK)){} // '!=' zamiast '<' zadziala, ale okres wykonywania petli while musialby byc mniejszy od zegara w mikrokontrolerze(czestotliwosc petli > czestotliwosc zegara) 
 		//jesli czestotliwosc petli < czestotliwosc zegara, to moze przeskoczyc wartosc uiTime
 }
 
@@ -30,14 +30,17 @@ void InitTimer0Match0(unsigned int iDelayTime){
 
 void WaitOnTimer0Match0(){
 	while((T0IR & MR0_INTERRUPT_bm)==0){} //petla opozniajaca do momentu zapalenia flagi przerwania
-	T0IR = INTERRUPT_ON_MR0_bm; //resetowanie przerwania
+	T0IR = INTERRUPT_ON_MR0_bm; //resetowanie przerwania T0IR |= INTERRUPT_ON_MR0_bm to  inaczej T0IR = T0IR | INTERRUPT_ON_MR0_bm
 }
 
-//wpisanie 1 powoduje zmiane stanu rejestru na przeciwny (jak bylo 1, zmienia na 0; jak bylo 1 zmienia na 0), nie mozna sumy logicznej, bo wczesniej moga byc inne 1 i po sumie logicznej moga zmienic swoj stan
+//wpisanie 1 powoduje zmiane stanu rejestru na przeciwny (jak bylo 1, zmienia na 0; jak bylo 1 zmienia na 0), nie mozna sumy logicznej, 
+//bo wczesniej moga byc inne 1 i po sumie logicznej moga zmienic swoj stan
 //co powoduje reset timera oraz ustawienie flagi przerwania
 //co i kiedy resetuje i ustawia flage przerwania
 //
-//RESET - ustawienie bitu RESET_ON_MR0 w rejestrze MCR (liczenie impulsów od poczatku do momentu wyrownania z wartoscia wpisana w T0MR0 i po tym czasie sie resetuje)
+//
+//RESET - ustawienie bitu RESET_ON_MR0 w rejestrze MCR (liczenie impulsów od poczatku do momentu wyrownania z wartoscia wpisana w T0MR0
+//i po tym czasie sie resetuje)
 //
 //
 //FLAGA - ustawienie bitu MR0_INTERRUPT w rejestrze MCR (po osiagnieciu wartosci wpisanej w T0MR0 spowoduje przerwanie)
