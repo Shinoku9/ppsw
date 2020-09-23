@@ -3,10 +3,12 @@
 #include "led.h"
 #include "timer_interrupts.h"
 
+#define CALIB_BUTTON (1<<4)
 #define DETECTOR_bm (1<<10)
+#define OFFSET_POS 12
 
 enum DetectorState {ACTIVE, INACTIVE};
-enum ServoState {CALLIB, IDLE, IN_PROGRESS};
+enum ServoState {CALLIB, IDLE, IN_PROGRESS, OFFSET};
 
 struct Servo
 {
@@ -21,11 +23,11 @@ void DetectorInit(void){
 }
 
 enum DetectorState eReadDetector(void){
-	if (0==(IO0PIN & DETECTOR_bm)){
-		return INACTIVE;
+	if ((IO0PIN & CALIB_BUTTON)==0){
+		return ACTIVE;
 	}
 	else{
-		return ACTIVE;
+		return INACTIVE;
 	}
 }
 
@@ -36,10 +38,21 @@ void Automat (void){
 				Led_StepLeft();
 				sServo.eState = CALLIB;
 			}
-			else if(eReadDetector()==ACTIVE){
+			else{
+				sServo.uiCurrentPosition=0;
+				sServo.eState = OFFSET;
+			}
+			break;
+		case OFFSET:
+			if(sServo.uiCurrentPosition == OFFSET_POS){
 				sServo.uiCurrentPosition=0;
 				sServo.uiDesiredPosition=0;
 				sServo.eState = IDLE;
+			}
+			else {
+				Led_StepRight();
+				sServo.uiCurrentPosition++;
+				sServo.eState = OFFSET;
 			}
 			break;
 		case IDLE:
@@ -51,15 +64,18 @@ void Automat (void){
 			}
 			break;
 		case IN_PROGRESS:
-			if(sServo.uiCurrentPosition < sServo.uiDesiredPosition){
-				Led_StepRight();
-				sServo.uiCurrentPosition++;
+			if(sServo.uiCurrentPosition != sServo.uiDesiredPosition){
+				if(sServo.uiCurrentPosition < sServo.uiDesiredPosition){
+					Led_StepRight();
+					sServo.uiCurrentPosition++;
+				}
+				else if (sServo.uiCurrentPosition > sServo.uiDesiredPosition){
+					Led_StepLeft();
+					sServo.uiCurrentPosition--;
+				}
+				sServo.eState = IN_PROGRESS;
 			}
-			else if (sServo.uiCurrentPosition > sServo.uiDesiredPosition){
-				Led_StepLeft();
-				sServo.uiCurrentPosition--;
-			}
-			else if (sServo.uiCurrentPosition == sServo.uiDesiredPosition){
+			else{
 				sServo.eState = IDLE;
 			}
 			break;
