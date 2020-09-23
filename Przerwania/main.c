@@ -2,49 +2,50 @@
 #include "keyboard.h"
 #include "timer_interrupts.h"
 
-void Automat (void){
+enum LedState {DIRECTION_LEFT, STOP, DIRECTION_RIGHT};
+enum LedState eLedState = STOP;
+
+void Automat (void)
+{
+	if(eLedState == DIRECTION_RIGHT)
+	{
+		Led_StepRight();
+	}
+	else if (eLedState == DIRECTION_LEFT)
+	{
+		Led_StepLeft();
+	}
 	
-	enum LedState {DIRECTION_LEFT, STOP, DIRECTION_RIGHT};
-	enum LedState eLedState = STOP;
-	
-	switch(eLedState){
-		case DIRECTION_LEFT:
-			if(eKeyboardRead() == BUTTON_2){
-				eLedState = STOP;
+	switch(eKeyboardRead())
+	{
+		case BUTTON_1:
+			if (eLedState == STOP)
+			{
+				eLedState = DIRECTION_RIGHT;
 			}
-			else{
-				Led_StepLeft();
+			break;
+		case BUTTON_2:
+			eLedState = STOP;
+			break;
+		case BUTTON_3:
+			if (eLedState == STOP)
+			{
 				eLedState = DIRECTION_LEFT;
 			}
 			break;
-		case STOP:
-			if(eKeyboardRead() == BUTTON_1){
-				eLedState = DIRECTION_RIGHT;
-			}
-			else if(eKeyboardRead() == BUTTON_3){
-				eLedState = DIRECTION_LEFT;
-			}
-			else{
-				eLedState = STOP;
-			}
+		case BUTTON_4:
 			break;
-		case DIRECTION_RIGHT:
-			if(eKeyboardRead() == BUTTON_2){
-				eLedState = STOP;
-			}
-			else{
-				Led_StepRight();
-				eLedState = DIRECTION_RIGHT;
-			}
+		case RELASED:
 			break;
 	}
-}
+}	
+
 
 int main (){
 	unsigned int iMainLoopCtr;
 	LedInit();
 	KeyboardInit();
-	Timer1Interrupts_Init(2000, &Automat);
+	Timer0Interrupts_Init(20000, &Automat); //250000
 
 	while(1){
 	 	iMainLoopCtr++;
